@@ -233,13 +233,31 @@
         &.LemonButton--tertiary {
             color: var(--default);
 
-            &.LemonButton--status-danger {
+            &:not([aria-disabled='true']):hover,
+            &.LemonButton--active {
+                background-color: var(--bg-3000);
+            }
+        }
+
+        &.LemonButton--status-danger:not(.LemonButton--onboarding) {
+            color: var(--danger);
+            border-color: var(--danger);
+
+            &.LemonButton--primary,
+            &.LemonButton--secondary {
+                background-color: var(--danger-lighter);
+            }
+
+            .LemonButton__chrome {
                 color: var(--danger);
+                border-color: var(--danger);
             }
 
             &:not([aria-disabled='true']):hover,
             &.LemonButton--active {
-                background-color: var(--bg-3000);
+                .LemonButton__chrome {
+                    border-color: var(--danger-dark);
+                }
             }
         }
     }
