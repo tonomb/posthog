@@ -241,15 +241,12 @@
 
         &.LemonButton--status-danger:not(.LemonButton--onboarding) {
             color: var(--danger);
+            background: transparent;
             border-color: var(--danger);
-
-            &.LemonButton--primary,
-            &.LemonButton--secondary {
-                background-color: var(--danger-lighter);
-            }
 
             .LemonButton__chrome {
                 color: var(--danger);
+                background: transparent;
                 border-color: var(--danger);
             }
 
