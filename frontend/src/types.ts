@@ -3227,6 +3227,7 @@ export enum NotebookNodeType {
     Properties = 'ph-properties',
     Map = 'ph-map',
     Embed = 'ph-embed',
+    Markdown = 'ph-markdown',
 }
 
 export type NotebookNodeResource = {

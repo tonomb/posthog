@@ -28,6 +28,7 @@ import { NodeKind } from '~/queries/schema'
 import { BaseMathType, ChartDisplayType, FunnelVizType, NotebookNodeType, PathType, RetentionPeriod } from '~/types'
 
 import { buildNodeEmbed } from '../Nodes/NotebookNodeEmbed'
+import { buildNodeMarkdown } from '../Nodes/NotebookNodeMarkdown'
 import { buildInsightVizQueryContent, buildNodeQueryContent } from '../Nodes/NotebookNodeQuery'
 import { selectFile } from '../Nodes/utils'
 import NotebookIconHeading from './NotebookIconHeading'
@@ -331,6 +332,14 @@ order by count() desc
         icon: <IconCode />,
         command: async (chain, pos) => {
             return chain.insertContentAt(pos, buildNodeEmbed())
+        },
+    },
+    {
+        title: 'Markdown',
+        search: 'markdown',
+        icon: <IconCode />,
+        command: async (chain, pos) => {
+            return chain.insertContentAt(pos, buildNodeMarkdown())
         },
     },
 ]

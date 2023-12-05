@@ -25,6 +25,7 @@ import { NotebookNodeFlagCodeExample } from '../Nodes/NotebookNodeFlagCodeExampl
 import { NotebookNodeGroup } from '../Nodes/NotebookNodeGroup'
 import { NotebookNodeImage } from '../Nodes/NotebookNodeImage'
 import { NotebookNodeMap } from '../Nodes/NotebookNodeMap'
+import { NotebookNodeMarkdown } from '../Nodes/NotebookNodeMarkdown'
 import { NotebookNodeMention } from '../Nodes/NotebookNodeMention'
 import { NotebookNodePerson } from '../Nodes/NotebookNodePerson'
 import { NotebookNodePersonFeed } from '../Nodes/NotebookNodePersonFeed/NotebookNodePersonFeed'
@@ -120,6 +121,7 @@ export function Editor(): JSX.Element {
             MentionsExtension,
             NotebookNodePersonFeed,
             NotebookNodeMap,
+            NotebookNodeMarkdown,
         ],
         editorProps: {
             handleDrop: (view, event, _slice, moved) => {

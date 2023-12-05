@@ -3,6 +3,7 @@ import './LemonMarkdown.scss'
 import clsx from 'clsx'
 import { CodeSnippet, Language } from 'lib/components/CodeSnippet'
 import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm'
 
 import { Link } from '../Link'
 
@@ -19,24 +20,25 @@ export function LemonMarkdown({ children, lowKeyHeadings = false, className }: L
         <div className={clsx('LemonMarkdown', className)}>
             {/* eslint-disable-next-line react/forbid-elements */}
             <ReactMarkdown
-                renderers={{
-                    link: ({ href, children }) => (
-                        <Link to={href} target="_blank" targetBlankIcon>
-                            {children}
-                        </Link>
-                    ),
-                    code: ({ language, value }) => (
-                        <CodeSnippet language={language || Language.Text} compact>
-                            {value}
-                        </CodeSnippet>
-                    ),
-                    ...(lowKeyHeadings
-                        ? {
-                              heading: 'strong',
-                          }
-                        : {}),
-                }}
-                disallowedTypes={['html']} // Don't want to deal with the security considerations of HTML
+                remarkPlugins={[gfm]}
+                // renderers={{
+                //     link: ({ href, children }) => (
+                //         <Link to={href} target="_blank" targetBlankIcon>
+                //             {children}
+                //         </Link>
+                //     ),
+                //     code: ({ language, value }) => (
+                //         <CodeSnippet language={language || Language.Text} compact>
+                //             {value}
+                //         </CodeSnippet>
+                //     ),
+                //     ...(lowKeyHeadings
+                //         ? {
+                //               heading: 'strong',
+                //           }
+                //         : {}),
+                // }}
+                // disallowedTypes={['html']} // Don't want to deal with the security considerations of HTML
             >
                 {children}
             </ReactMarkdown>
