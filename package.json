@@ -189,7 +189,7 @@
         "@babel/preset-typescript": "^7.22.5",
         "@babel/runtime": "^7.22.10",
         "@cypress/webpack-preprocessor": "^5.17.1",
-        "@playwright/test": "1.32.2",
+        "@playwright/test": "1.33.0",
         "@sentry/types": "7.22.0",
         "@storybook/addon-a11y": "^7.6.4",
         "@storybook/addon-actions": "^7.6.4",
@@ -303,7 +303,7 @@
     },
     "pnpm": {
         "overrides": {
-            "playwright": "1.32.2"
+            "playwright": "1.33.0"
         }
     },
     "lint-staged": {
