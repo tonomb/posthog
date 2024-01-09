@@ -14,7 +14,6 @@ export default {
         layout: 'fullscreen',
         options: { showPanel: false },
         testOptions: {
-            excludeNavigationFromSnapshot: true,
             waitForLoadersToDisappear: true,
         },
         mockDate: '2023-02-01',
