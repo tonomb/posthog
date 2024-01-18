@@ -30,13 +30,13 @@ export function Destinations(): JSX.Element {
         <>
             {(shouldShowEmptyState || shouldShowProductIntroduction) && (
                 <ProductIntroduction
-                    productName="Pipeline destinations"
+                    productName="pipeline destinations"
                     thingName="destination"
                     productKey={ProductKey.PIPELINE_DESTINATIONS}
-                    description="Pipeline destinations allow you to export data outside of PostHog, such as webhooks to Slack."
+                    description="Use destinations to continuously export data to other tools."
                     docsURL="https://posthog.com/docs/cdp"
                     actionElementOverride={<NewButton kind={PipelineAppKind.Destination} />}
-                    isEmpty={true}
+                    isEmpty={shouldShowEmptyState}
                 />
             )}
             <DestinationsTable />

@@ -57,13 +57,13 @@ export function Transformations(): JSX.Element {
         <>
             {(shouldShowEmptyState || shouldShowProductIntroduction) && (
                 <ProductIntroduction
-                    productName="Pipeline transformations"
+                    productName="pipeline transformations"
                     thingName="transformation"
                     productKey={ProductKey.PIPELINE_TRANSFORMATIONS}
-                    description="Pipeline transformations allow you to enrich your data with additional information, such as geolocation."
+                    description="Use transformations to enrich data with additional information."
                     docsURL="https://posthog.com/docs/cdp"
                     actionElementOverride={<NewButton kind={PipelineAppKind.Transformation} />}
-                    isEmpty={true}
+                    isEmpty={shouldShowEmptyState}
                 />
             )}
             {!shouldShowEmptyState && (
