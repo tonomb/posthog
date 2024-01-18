@@ -10,7 +10,7 @@ import { BatchExportConfiguration, PluginConfigTypeNew, PluginLogEntryType, Plug
 import { PipelineAppLogLevel } from './pipelineAppLogsLogic'
 
 const PLUGINS_ALLOWED_WITHOUT_DATA_PIPELINES_ARR = [
-    // frontend apps
+    // site apps
     'https://github.com/PostHog/bug-report-app',
     'https://github.com/PostHog/early-access-features-app',
     'https://github.com/PostHog/notification-bar-app',
