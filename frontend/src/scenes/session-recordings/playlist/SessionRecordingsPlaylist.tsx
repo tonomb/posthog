@@ -87,8 +87,7 @@ function RecordingsLists(): JSX.Element {
         totalFiltersCount,
         sessionRecordingsAPIErrored,
         unusableEventsInFilter,
-        showAdvancedFilters,
-        hasAdvancedFilters,
+        mode,
         logicProps,
         showOtherRecordings,
         recordingsCount,
@@ -101,8 +100,7 @@ function RecordingsLists(): JSX.Element {
         maybeLoadSessionRecordings,
         setShowFilters,
         setShowSettings,
-        resetFilters,
-        setShowAdvancedFilters,
+        setFilterMode,
         toggleShowOtherRecordings,
         summarizeSession,
     } = useActions(sessionRecordingsPlaylistLogic)
@@ -212,10 +210,8 @@ function RecordingsLists(): JSX.Element {
                             filters={filters}
                             setFilters={setFilters}
                             showPropertyFilters={!logicProps.personUUID}
-                            onReset={totalFiltersCount ? () => resetFilters() : undefined}
-                            hasAdvancedFilters={hasAdvancedFilters}
-                            showAdvancedFilters={showAdvancedFilters}
-                            setShowAdvancedFilters={setShowAdvancedFilters}
+                            mode={mode}
+                            setFilterMode={setFilterMode}
                         />
                     </div>
                 ) : showSettings ? (

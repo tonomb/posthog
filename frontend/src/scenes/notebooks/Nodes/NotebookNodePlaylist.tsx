@@ -2,7 +2,6 @@ import { createPostHogWidgetNode } from 'scenes/notebooks/Nodes/NodeWrapper'
 import { FilterType, NotebookNodeType, RecordingFilters } from '~/types'
 import {
     SessionRecordingPlaylistLogicProps,
-    addedAdvancedFilters,
     getDefaultFilters,
     sessionRecordingsPlaylistLogic,
 } from 'scenes/session-recordings/playlist/sessionRecordingsPlaylistLogic'
@@ -11,7 +10,10 @@ import { useEffect, useMemo, useState } from 'react'
 import { urls } from 'scenes/urls'
 import { notebookNodeLogic } from './notebookNodeLogic'
 import { JSONContent, NotebookNodeProps, NotebookNodeAttributeProperties } from '../Notebook/utils'
-import { SessionRecordingsFilters } from 'scenes/session-recordings/filters/SessionRecordingsFilters'
+import {
+    SessionRecordingsFilterMode,
+    SessionRecordingsFilters,
+} from 'scenes/session-recordings/filters/SessionRecordingsFilters'
 import { ErrorBoundary } from '@sentry/react'
 import { SessionRecordingsPlaylist } from 'scenes/session-recordings/playlist/SessionRecordingsPlaylist'
 import { sessionRecordingPlayerLogic } from 'scenes/session-recordings/player/sessionRecordingPlayerLogic'
@@ -118,13 +120,8 @@ export const Settings = ({
     updateAttributes,
 }: NotebookNodeAttributeProperties<NotebookNodePlaylistAttributes>): JSX.Element => {
     const { filters } = attributes
-    const [showAdvancedFilters, setShowAdvancedFilters] = useState(false)
+    const [mode, setFilterMode] = useState<SessionRecordingsFilterMode>('simple')
     const defaultFilters = getDefaultFilters()
-
-    const hasAdvancedFilters = useMemo(() => {
-        const defaultFilters = getDefaultFilters()
-        return addedAdvancedFilters(filters, defaultFilters)
-    }, [filters])
 
     return (
         <ErrorBoundary>
@@ -133,9 +130,8 @@ export const Settings = ({
                 setFilters={(filters) => updateAttributes({ filters })}
                 showPropertyFilters
                 onReset={() => updateAttributes({ filters: undefined })}
-                hasAdvancedFilters={hasAdvancedFilters}
-                showAdvancedFilters={showAdvancedFilters}
-                setShowAdvancedFilters={setShowAdvancedFilters}
+                mode={mode}
+                setFilterMode={setFilterMode}
             />
         </ErrorBoundary>
     )

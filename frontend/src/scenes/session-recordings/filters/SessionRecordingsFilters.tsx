@@ -1,4 +1,4 @@
-import { LemonButton, LemonSegmentedButton } from '@posthog/lemon-ui'
+import { LemonSegmentedButton } from '@posthog/lemon-ui'
 import equal from 'fast-deep-equal'
 import { LemonLabel } from 'lib/lemon-ui/LemonLabel/LemonLabel'
 import { useEffect, useState } from 'react'
@@ -8,14 +8,14 @@ import { EntityTypes, FilterType, LocalRecordingFilters, RecordingFilters } from
 import { AdvancedSessionRecordingsFilters } from './AdvancedSessionRecordingsFilters'
 import { SimpleSessionRecordingsFilters } from './SimpleSessionRecordingsFilters'
 
+export type SessionRecordingsFilterMode = 'simple' | 'advanced'
+
 interface SessionRecordingsFiltersProps {
     filters: RecordingFilters
     setFilters: (filters: RecordingFilters) => void
     showPropertyFilters?: boolean
-    onReset?: () => void
-    hasAdvancedFilters: boolean
-    showAdvancedFilters: boolean
-    setShowAdvancedFilters: (showAdvancedFilters: boolean) => void
+    mode: SessionRecordingsFilterMode
+    setFilterMode: (mode: SessionRecordingsFilterMode) => void
 }
 
 const filtersToLocalFilters = (filters: RecordingFilters): LocalRecordingFilters => {
@@ -44,10 +44,8 @@ export function SessionRecordingsFilters({
     filters,
     setFilters,
     showPropertyFilters,
-    onReset,
-    hasAdvancedFilters,
-    showAdvancedFilters,
-    setShowAdvancedFilters,
+    mode,
+    setFilterMode,
 }: SessionRecordingsFiltersProps): JSX.Element {
     const [localFilters, setLocalFilters] = useState<FilterType>(filtersToLocalFilters(filters))
 
@@ -72,36 +70,22 @@ export function SessionRecordingsFilters({
     return (
         <div className="relative flex flex-col gap-6 p-3">
             <div className="space-y-1">
-                {onReset && (
-                    <span className="absolute top-2 right-2">
-                        <LemonButton size="small" onClick={onReset}>
-                            Reset
-                        </LemonButton>
-                    </span>
-                )}
-
                 <LemonLabel info="Show recordings where all of below filters match.">Find sessions by:</LemonLabel>
 
                 <LemonSegmentedButton
                     size="small"
-                    value={showAdvancedFilters ? 'advanced' : 'simple'}
+                    value={mode}
                     options={[
-                        {
-                            value: 'simple',
-                            label: 'Simple filters',
-                            disabledReason: hasAdvancedFilters
-                                ? 'You are only allowed person filters and a single pageview event (filtered by current url) to switch back to simple filters'
-                                : undefined,
-                        },
+                        { value: 'simple', label: 'Simple filters' },
                         { value: 'advanced', label: 'Advanced filters' },
                     ]}
-                    onChange={(newValue) => setShowAdvancedFilters(newValue === 'advanced')}
-                    data-attr={`session-recordings-show-${showAdvancedFilters ? 'simple' : 'advanced'}-filters`}
+                    onChange={setFilterMode}
+                    data-attr={`session-recordings-show-${mode}-filters`}
                     fullWidth
                 />
             </div>
 
-            {showAdvancedFilters ? (
+            {mode === 'advanced' ? (
                 <AdvancedSessionRecordingsFilters
                     filters={filters}
                     setFilters={setFilters}
