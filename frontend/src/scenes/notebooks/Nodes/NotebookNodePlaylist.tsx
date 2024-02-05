@@ -120,7 +120,7 @@ export const Settings = ({
     updateAttributes,
 }: NotebookNodeAttributeProperties<NotebookNodePlaylistAttributes>): JSX.Element => {
     const { filters } = attributes
-    const [mode, setFilterMode] = useState<SessionRecordingsFilterMode>('simple')
+    const [filterMode, setFilterMode] = useState<SessionRecordingsFilterMode>('simple')
     const defaultFilters = getDefaultFilters()
 
     return (
@@ -129,8 +129,7 @@ export const Settings = ({
                 filters={{ ...defaultFilters, ...filters }}
                 setFilters={(filters) => updateAttributes({ filters })}
                 showPropertyFilters
-                onReset={() => updateAttributes({ filters: undefined })}
-                mode={mode}
+                mode={filterMode}
                 setFilterMode={setFilterMode}
             />
         </ErrorBoundary>

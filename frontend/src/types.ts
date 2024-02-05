@@ -840,6 +840,7 @@ export interface RecordingDurationFilter extends BasePropertyFilter {
     value: number
     operator: PropertyOperator
 }
+export type RecordingFilterMode = 'simple' | 'advanced'
 
 export type DurationType = 'duration' | 'active_seconds' | 'inactive_seconds'
 

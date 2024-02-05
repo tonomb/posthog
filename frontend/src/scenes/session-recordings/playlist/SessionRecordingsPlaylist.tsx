@@ -87,7 +87,7 @@ function RecordingsLists(): JSX.Element {
         totalFiltersCount,
         sessionRecordingsAPIErrored,
         unusableEventsInFilter,
-        mode,
+        filterMode,
         logicProps,
         showOtherRecordings,
         recordingsCount,
@@ -203,14 +203,14 @@ function RecordingsLists(): JSX.Element {
                 </div>
             </DraggableToNotebook>
 
-            <div className={clsx('overflow-y-auto')} onScroll={handleScroll} ref={contentRef}>
+            <div className="overflow-y-auto" onScroll={handleScroll} ref={contentRef}>
                 {!notebookNode && showFilters ? (
                     <div className="bg-side border-b">
                         <SessionRecordingsFilters
                             filters={filters}
                             setFilters={setFilters}
                             showPropertyFilters={!logicProps.personUUID}
-                            mode={mode}
+                            mode={filterMode}
                             setFilterMode={setFilterMode}
                         />
                     </div>

@@ -76,11 +76,16 @@ export function SessionRecordingsFilters({
                     size="small"
                     value={mode}
                     options={[
-                        { value: 'simple', label: 'Simple filters' },
+                        {
+                            value: 'simple',
+                            label: 'Simple filters',
+                            tooltip: mode === 'advanced' ? 'Your existing filters will be removed' : undefined,
+                        },
                         { value: 'advanced', label: 'Advanced filters' },
                     ]}
                     onChange={setFilterMode}
                     data-attr={`session-recordings-show-${mode}-filters`}
+                    fullWidth
                 />
             </div>
 

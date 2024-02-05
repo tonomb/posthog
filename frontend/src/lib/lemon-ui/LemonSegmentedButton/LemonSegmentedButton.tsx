@@ -89,6 +89,7 @@ export function LemonSegmentedButton<T extends React.Key>({
                             size={size}
                             fullWidth
                             disabledReason={option.disabledReason}
+                            tooltip={option.tooltip}
                             onClick={() => {
                                 if (!option.disabledReason) {
                                     onChange?.(option.value)
