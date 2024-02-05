@@ -174,8 +174,6 @@ export const sessionRecordingsPlaylistLogic = kea<sessionRecordingsPlaylistLogic
     }),
     actions({
         setFilters: (filters: Partial<RecordingFilters>, mode: SessionRecordingsFilterMode) => ({ filters, mode }),
-        setSimpleFilters: (filters: Partial<RecordingFilters>) => ({ filters }),
-        setAdvancedFilters: (filters: Partial<RecordingFilters>) => ({ filters }),
         setShowFilters: (showFilters: boolean) => ({ showFilters }),
         setFilterMode: (mode: SessionRecordingsFilterMode) => ({ mode }),
         setShowSettings: (showSettings: boolean) => ({ showSettings }),

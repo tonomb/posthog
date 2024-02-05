@@ -81,7 +81,6 @@ export function SessionRecordingsFilters({
                     ]}
                     onChange={setFilterMode}
                     data-attr={`session-recordings-show-${mode}-filters`}
-                    fullWidth
                 />
             </div>
 
