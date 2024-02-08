@@ -378,7 +378,8 @@
          "posthog_cohort"."is_static",
          "posthog_cohort"."groups"
   FROM "posthog_cohort"
-  WHERE "posthog_cohort"."id" = 2
+  WHERE ("posthog_cohort"."id" = 2
+         AND "posthog_cohort"."team_id" = 2)
   LIMIT 21
   '''
 # ---
@@ -414,7 +415,7 @@
   WHERE ("posthog_persondistinctid"."id" IN
            (SELECT U0."id"
             FROM "posthog_persondistinctid" U0
-            WHERE U0."person_id" = "posthog_persondistinctid"."person_id"
+            WHERE U0."person_id" = ("posthog_persondistinctid"."person_id")
             LIMIT 3)
          AND "posthog_persondistinctid"."person_id" IN (1,
                                                         2,
@@ -431,10 +432,10 @@
          AND "posthog_person"."uuid" IN ('00000000-0000-0000-0000-000000000000'::uuid,
                                          '00000000-0000-0000-0000-000000000001'::uuid /* ... */)
          AND NOT (EXISTS
-                    (SELECT (1) AS "a"
+                    (SELECT 1 AS "a"
                      FROM "posthog_cohortpeople" U1
                      WHERE (U1."cohort_id" = 2
-                            AND U1."person_id" = "posthog_person"."id")
+                            AND U1."person_id" = ("posthog_person"."id"))
                      LIMIT 1)))
   '''
 # ---
@@ -530,7 +531,7 @@
   WHERE ("posthog_persondistinctid"."id" IN
            (SELECT U0."id"
             FROM "posthog_persondistinctid" U0
-            WHERE U0."person_id" = "posthog_persondistinctid"."person_id"
+            WHERE U0."person_id" = ("posthog_persondistinctid"."person_id")
             LIMIT 3)
          AND "posthog_persondistinctid"."person_id" IN (1,
                                                         2,
@@ -569,10 +570,10 @@
          AND "posthog_person"."uuid" IN ('00000000-0000-0000-0000-000000000000'::uuid,
                                          '00000000-0000-0000-0000-000000000001'::uuid /* ... */)
          AND NOT (EXISTS
-                    (SELECT (1) AS "a"
+                    (SELECT 1 AS "a"
                      FROM "posthog_cohortpeople" U1
                      WHERE (U1."cohort_id" = 2
-                            AND U1."person_id" = "posthog_person"."id")
+                            AND U1."person_id" = ("posthog_person"."id"))
                      LIMIT 1)))
   '''
 # ---
@@ -619,7 +620,8 @@
          "posthog_cohort"."is_static",
          "posthog_cohort"."groups"
   FROM "posthog_cohort"
-  WHERE "posthog_cohort"."id" = 2
+  WHERE ("posthog_cohort"."id" = 2
+         AND "posthog_cohort"."team_id" = 2)
   LIMIT 21
   '''
 # ---
@@ -631,10 +633,10 @@
          AND "posthog_person"."uuid" IN ('00000000-0000-0000-0000-000000000000'::uuid,
                                          '00000000-0000-0000-0000-000000000001'::uuid /* ... */)
          AND NOT (EXISTS
-                    (SELECT (1) AS "a"
+                    (SELECT 1 AS "a"
                      FROM "posthog_cohortpeople" U1
                      WHERE (U1."cohort_id" = 2
-                            AND U1."person_id" = "posthog_person"."id")
+                            AND U1."person_id" = ("posthog_person"."id"))
                      LIMIT 1)))
   '''
 # ---
@@ -744,11 +746,11 @@
                   AND "posthog_person"."properties" ? 'group2'
                   AND NOT (("posthog_person"."properties" -> 'group2') = 'null'))
               OR EXISTS
-                (SELECT (1) AS "a"
+                (SELECT 1 AS "a"
                  FROM "posthog_cohortpeople" U0
                  WHERE (U0."cohort_id" = 2
                         AND U0."cohort_id" = 2
-                        AND U0."person_id" = "posthog_person"."id")
+                        AND U0."person_id" = ("posthog_person"."id"))
                  LIMIT 1)
               OR (("posthog_person"."properties" -> 'does-not-exist') = '"none"'
                   AND "posthog_person"."properties" ? 'does-not-exist'
@@ -771,7 +773,7 @@
   WHERE ("posthog_persondistinctid"."id" IN
            (SELECT U0."id"
             FROM "posthog_persondistinctid" U0
-            WHERE U0."person_id" = "posthog_persondistinctid"."person_id"
+            WHERE U0."person_id" = ("posthog_persondistinctid"."person_id")
             LIMIT 3)
          AND "posthog_persondistinctid"."person_id" IN (1,
                                                         2,
@@ -785,11 +787,11 @@
   SELECT ("posthog_person"."id" IS NULL
           OR "posthog_person"."id" IS NULL
           OR EXISTS
-            (SELECT (1) AS "a"
+            (SELECT 1 AS "a"
              FROM "posthog_cohortpeople" U0
              WHERE (U0."cohort_id" = 2
                     AND U0."cohort_id" = 2
-                    AND U0."person_id" = "posthog_person"."id")
+                    AND U0."person_id" = ("posthog_person"."id"))
              LIMIT 1)
           OR "posthog_person"."id" IS NULL) AS "flag_X_condition_0"
   FROM "posthog_person"
@@ -804,11 +806,11 @@
   SELECT ("posthog_person"."id" IS NOT NULL
           OR "posthog_person"."id" IS NULL
           OR EXISTS
-            (SELECT (1) AS "a"
+            (SELECT 1 AS "a"
              FROM "posthog_cohortpeople" U0
              WHERE (U0."cohort_id" = 2
                     AND U0."cohort_id" = 2
-                    AND U0."person_id" = "posthog_person"."id")
+                    AND U0."person_id" = ("posthog_person"."id"))
              LIMIT 1)
           OR "posthog_person"."id" IS NULL) AS "flag_X_condition_0"
   FROM "posthog_person"
@@ -823,11 +825,11 @@
   SELECT ("posthog_person"."id" IS NULL
           OR "posthog_person"."id" IS NOT NULL
           OR EXISTS
-            (SELECT (1) AS "a"
+            (SELECT 1 AS "a"
              FROM "posthog_cohortpeople" U0
              WHERE (U0."cohort_id" = 2
                     AND U0."cohort_id" = 2
-                    AND U0."person_id" = "posthog_person"."id")
+                    AND U0."person_id" = ("posthog_person"."id"))
              LIMIT 1)
           OR "posthog_person"."id" IS NULL) AS "flag_X_condition_0"
   FROM "posthog_person"
@@ -842,11 +844,11 @@
   SELECT ("posthog_person"."id" IS NULL
           OR "posthog_person"."id" IS NULL
           OR EXISTS
-            (SELECT (1) AS "a"
+            (SELECT 1 AS "a"
              FROM "posthog_cohortpeople" U0
              WHERE (U0."cohort_id" = 2
                     AND U0."cohort_id" = 2
-                    AND U0."person_id" = "posthog_person"."id")
+                    AND U0."person_id" = ("posthog_person"."id"))
              LIMIT 1)
           OR "posthog_person"."id" IS NULL) AS "flag_X_condition_0"
   FROM "posthog_person"
@@ -879,11 +881,11 @@
                   AND "posthog_person"."properties" ? 'group2'
                   AND NOT (("posthog_person"."properties" -> 'group2') = 'null'))
               OR EXISTS
-                (SELECT (1) AS "a"
+                (SELECT 1 AS "a"
                  FROM "posthog_cohortpeople" U0
                  WHERE (U0."cohort_id" = 2
                         AND U0."cohort_id" = 2
-                        AND U0."person_id" = "posthog_person"."id")
+                        AND U0."person_id" = ("posthog_person"."id"))
                  LIMIT 1)
               OR (("posthog_person"."properties" -> 'does-not-exist') = '"none"'
                   AND "posthog_person"."properties" ? 'does-not-exist'
@@ -939,7 +941,8 @@
          "posthog_cohort"."is_static",
          "posthog_cohort"."groups"
   FROM "posthog_cohort"
-  WHERE "posthog_cohort"."id" = 2
+  WHERE ("posthog_cohort"."id" = 2
+         AND "posthog_cohort"."team_id" = 2)
   LIMIT 21
   '''
 # ---
@@ -954,7 +957,7 @@
   WHERE ("posthog_persondistinctid"."id" IN
            (SELECT U0."id"
             FROM "posthog_persondistinctid" U0
-            WHERE U0."person_id" = "posthog_persondistinctid"."person_id"
+            WHERE U0."person_id" = ("posthog_persondistinctid"."person_id")
             LIMIT 3)
          AND "posthog_persondistinctid"."person_id" IN (1,
                                                         2,
@@ -991,10 +994,10 @@
          AND "posthog_person"."uuid" IN ('00000000-0000-0000-0000-000000000000'::uuid,
                                          '00000000-0000-0000-0000-000000000001'::uuid /* ... */)
          AND NOT (EXISTS
-                    (SELECT (1) AS "a"
+                    (SELECT 1 AS "a"
                      FROM "posthog_cohortpeople" U1
                      WHERE (U1."cohort_id" = 2
-                            AND U1."person_id" = "posthog_person"."id")
+                            AND U1."person_id" = ("posthog_person"."id"))
                      LIMIT 1)))
   '''
 # ---
@@ -1089,7 +1092,7 @@
   WHERE ("posthog_persondistinctid"."id" IN
            (SELECT U0."id"
             FROM "posthog_persondistinctid" U0
-            WHERE U0."person_id" = "posthog_persondistinctid"."person_id"
+            WHERE U0."person_id" = ("posthog_persondistinctid"."person_id")
             LIMIT 3)
          AND "posthog_persondistinctid"."person_id" IN (1,
                                                         2,
@@ -1128,10 +1131,10 @@
          AND "posthog_person"."uuid" IN ('00000000-0000-0000-0000-000000000000'::uuid,
                                          '00000000-0000-0000-0000-000000000001'::uuid /* ... */)
          AND NOT (EXISTS
-                    (SELECT (1) AS "a"
+                    (SELECT 1 AS "a"
                      FROM "posthog_cohortpeople" U1
                      WHERE (U1."cohort_id" = 2
-                            AND U1."person_id" = "posthog_person"."id")
+                            AND U1."person_id" = ("posthog_person"."id"))
                      LIMIT 1)))
   '''
 # ---
@@ -1237,7 +1240,8 @@
          "posthog_cohort"."is_static",
          "posthog_cohort"."groups"
   FROM "posthog_cohort"
-  WHERE "posthog_cohort"."id" = 2
+  WHERE ("posthog_cohort"."id" = 2
+         AND "posthog_cohort"."team_id" = 2)
   LIMIT 21
   '''
 # ---
@@ -1303,7 +1307,8 @@
          "posthog_cohort"."is_static",
          "posthog_cohort"."groups"
   FROM "posthog_cohort"
-  WHERE "posthog_cohort"."id" = 2
+  WHERE ("posthog_cohort"."id" = 2
+         AND "posthog_cohort"."team_id" = 2)
   LIMIT 21
   '''
 # ---
@@ -1339,7 +1344,7 @@
   WHERE ("posthog_persondistinctid"."id" IN
            (SELECT U0."id"
             FROM "posthog_persondistinctid" U0
-            WHERE U0."person_id" = "posthog_persondistinctid"."person_id"
+            WHERE U0."person_id" = ("posthog_persondistinctid"."person_id")
             LIMIT 3)
          AND "posthog_persondistinctid"."person_id" IN (1,
                                                         2,
@@ -1420,10 +1425,10 @@
          AND "posthog_person"."uuid" IN ('00000000-0000-0000-0000-000000000000'::uuid,
                                          '00000000-0000-0000-0000-000000000001'::uuid /* ... */)
          AND NOT (EXISTS
-                    (SELECT (1) AS "a"
+                    (SELECT 1 AS "a"
                      FROM "posthog_cohortpeople" U1
                      WHERE (U1."cohort_id" = 2
-                            AND U1."person_id" = "posthog_person"."id")
+                            AND U1."person_id" = ("posthog_person"."id"))
                      LIMIT 1)))
   '''
 # ---
@@ -1580,7 +1585,7 @@
   WHERE ("posthog_persondistinctid"."id" IN
            (SELECT U0."id"
             FROM "posthog_persondistinctid" U0
-            WHERE U0."person_id" = "posthog_persondistinctid"."person_id"
+            WHERE U0."person_id" = ("posthog_persondistinctid"."person_id")
             LIMIT 3)
          AND "posthog_persondistinctid"."person_id" IN (1,
                                                         2,
@@ -1619,10 +1624,10 @@
          AND "posthog_person"."uuid" IN ('00000000-0000-0000-0000-000000000000'::uuid,
                                          '00000000-0000-0000-0000-000000000001'::uuid /* ... */)
          AND NOT (EXISTS
-                    (SELECT (1) AS "a"
+                    (SELECT 1 AS "a"
                      FROM "posthog_cohortpeople" U1
                      WHERE (U1."cohort_id" = 2
-                            AND U1."person_id" = "posthog_person"."id")
+                            AND U1."person_id" = ("posthog_person"."id"))
                      LIMIT 1))) /*controller='project_feature_flags-create-static-cohort-for-flag',route='api/projects/%28%3FP%3Cparent_lookup_team_id%3E%5B%5E/.%5D%2B%29/feature_flags/%28%3FP%3Cpk%3E%5B%5E/.%5D%2B%29/create_static_cohort_for_flag/%3F%24'*/
   '''
 # ---
@@ -1687,7 +1692,7 @@
 # ---
 # name: TestFeatureFlag.test_creating_static_cohort.14
   '''
-  /* user_id:194 celery:posthog.tasks.calculate_cohort.insert_cohort_from_feature_flag */
+  /* user_id:195 celery:posthog.tasks.calculate_cohort.insert_cohort_from_feature_flag */
   SELECT count(DISTINCT person_id)
   FROM person_static_cohort
   WHERE team_id = 2
@@ -1930,7 +1935,8 @@
          "posthog_cohort"."is_static",
          "posthog_cohort"."groups"
   FROM "posthog_cohort"
-  WHERE "posthog_cohort"."id" = 2
+  WHERE ("posthog_cohort"."id" = 2
+         AND "posthog_cohort"."team_id" = 2)
   LIMIT 21 /*controller='project_feature_flags-create-static-cohort-for-flag',route='api/projects/%28%3FP%3Cparent_lookup_team_id%3E%5B%5E/.%5D%2B%29/feature_flags/%28%3FP%3Cpk%3E%5B%5E/.%5D%2B%29/create_static_cohort_for_flag/%3F%24'*/
   '''
 # ---
