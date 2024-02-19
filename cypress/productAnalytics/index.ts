@@ -164,9 +164,15 @@ export const dashboards = {
         cy.get('[data-attr="new-dashboard"]').click()
         cy.get('[data-attr="create-dashboard-blank"]').click()
         cy.get('[data-attr="top-bar-name"]').should('exist')
-        cy.get('[data-attr="top-bar-name"] button').click()
-        cy.get('[data-attr="top-bar-name"] input').clear().type(dashboardName)
-        cy.get('[data-attr="top-bar-name"] [title="Save"]').click()
+        const maxAttempts = 5
+        for (let i = 0; i < maxAttempts; i++) {
+            cy.get('[data-attr="top-bar-name"] button').click()
+            if (cy.get('[data-attr="top-bar-name"] input').should('be.visible').should('be.enabled')) {
+                break
+            }
+        }
+
+        cy.get('[data-attr="top-bar-name"] input').clear().type(dashboardName).blur()
         cy.contains(dashboardName).should('exist')
     },
     visitDashboard: (dashboardName: string): void => {
