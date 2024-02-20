@@ -374,7 +374,7 @@ export const dashboardLogic = kea<dashboardLogicType>([
                         // what are we even updating?
                         return state
                     }
-                    if (insight.dashboardKey !== props.id) {
+                    if (insight.dashboardKey && insight.dashboardKey !== props.id) {
                         // this update is not for this dashboard
                         return state
                     }
@@ -414,7 +414,7 @@ export const dashboardLogic = kea<dashboardLogicType>([
                         // what are we even updating?
                         return state
                     }
-                    if (tile.insight?.dashboardKey !== props.id) {
+                    if (tile.insight?.dashboardKey && tile.insight?.dashboardKey !== props.id) {
                         // this update is not for this dashboard
                         return state
                     }
