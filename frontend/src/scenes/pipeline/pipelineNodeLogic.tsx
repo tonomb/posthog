@@ -8,7 +8,7 @@ import { batchExportFormFields } from 'scenes/batch_exports/batchExportEditLogic
 import { Scene } from 'scenes/sceneTypes'
 import { urls } from 'scenes/urls'
 
-import { Breadcrumb, PipelineNodeTab, PipelineStage } from '~/types'
+import { Breadcrumb, PipelineNodeTab, PipelineStage, PluginType } from '~/types'
 
 import {
     defaultConfigForPlugin,
@@ -48,15 +48,25 @@ export const pipelineNodeLogic = kea<pipelineNodeLogicType>([
         updateNode: (payload: PluginUpdatePayload | BatchExportUpdatePayload) => ({
             payload,
         }),
+        // setNewPipelineNodePlugin: (plugin: PluginType) => ({ plugin }),
+        setNewSelected: (id: number | string | null) => ({ id }),
+        setNewPluginNode: (plugin: PluginType) => ({ plugin }),
     }),
-    reducers({
+    reducers(() => ({
         currentTab: [
             PipelineNodeTab.Configuration as PipelineNodeTab,
             {
                 setCurrentTab: (_, { tab }) => tab,
             },
         ],
-    }),
+        newSelected: [
+            // TODO: this doesn't clear properly if I exit out of the page
+            null as null | number | string,
+            {
+                setNewSelected: (_, { id }) => id,
+            },
+        ],
+    })),
     loaders(({ props, values }) => ({
         node: [
             null as PipelineNode | null,
@@ -68,7 +78,9 @@ export const pipelineNodeLogic = kea<pipelineNodeLogicType>([
                     let node: PipelineNode | null = null
                     try {
                         if (typeof props.id === 'string') {
-                            if (props.stage !== PipelineStage.Destination) {
+                            if (props.id === 'new') {
+                                // TODO: might this be overriding things?
+                                // TODO: move the setting the plugin here
                                 return null
                             }
                             const batchExport = await api.batchExports.get(props.id)
@@ -91,6 +103,9 @@ export const pipelineNodeLogic = kea<pipelineNodeLogicType>([
                     }
                     if (values.node.backend === PipelineBackend.BatchExport) {
                         payload = payload as BatchExportUpdatePayload
+                        if (props.id === 'new') {
+                            // TODO: create the new batch export
+                        }
                         const batchExport = await api.batchExports.update(props.id as string, {
                             paused: !payload.enabled,
                             name: payload.name,
@@ -100,12 +115,36 @@ export const pipelineNodeLogic = kea<pipelineNodeLogicType>([
                         return convertToPipelineNode(batchExport, values.node.stage)
                     } else {
                         payload = payload as PluginUpdatePayload
+                        if (props.id === 'new') {
+                            // TODO: create the new plugin config
+                        }
                         const pluginConfig = await api.pluginConfigs.update(
                             props.id as number,
                             getPluginConfigFormData(values.node.plugin.config_schema, values.node.config, payload)
                         )
                         return convertToPipelineNode(pluginConfig, values.node.stage)
                     }
+                },
+                setNewPluginNode: ({ plugin }) => {
+                    // TODO: fix this
+                    if (values.newSelected && props.stage) {
+                        return convertToPipelineNode(
+                            {
+                                id: -1, // HARDCODED to mean new
+                                plugin: plugin.id,
+                                team_id: 1, // TODO: fix this
+                                name: plugin.name,
+                                description: plugin.description,
+                                enabled: true,
+                                order: 0, // TODO: should be at the end
+                                plugin_info: plugin,
+                                config: {},
+                                updated_at: new Date().toISOString(),
+                            },
+                            props.stage
+                        )
+                    }
+                    return null
                 },
             },
         ],
@@ -205,6 +244,9 @@ export const pipelineNodeLogic = kea<pipelineNodeLogicType>([
         loadNodeSuccess: () => {
             actions.resetConfiguration(values.savedConfiguration || {})
             // TODO: Update entry in the relevant list logic
+        },
+        setNewSelected: () => {
+            actions.resetConfiguration({}) // If the user switches to a different plugin/batch export, then clear the form
         },
         setConfigurationValue: async ({ name, value }) => {
             if (name[0] === 'json_config_file' && value) {
